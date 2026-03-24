@@ -607,7 +607,11 @@ function TextDirectoryCard({
   onDelete,
   onUse,
 }: {
-  item: ChantText;
+  item:  {
+  id: string;
+  title: string;
+  content: string;
+};
   editingTextId: string | null;
   editingTitle: string;
   editingContent: string;
