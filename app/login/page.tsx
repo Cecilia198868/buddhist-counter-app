@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async () => {
-    setMessage("");
+    setMessage("按钮已点击，正在处理...");
 
     if (!email.trim() || !password.trim()) {
       setMessage("请输入邮箱和密码");
@@ -26,34 +26,42 @@ export default function LoginPage() {
       setLoading(true);
 
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
+        setMessage("正在登录...");
+
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (error) {
-          setMessage(error.message);
+          setMessage("登录失败：" + error.message);
           return;
         }
+
+        setMessage("登录成功，正在跳转...");
+        console.log("login success", data);
 
         router.push("/");
         router.refresh();
       } else {
-        const { error } = await supabase.auth.signUp({
+        setMessage("正在注册...");
+
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
         });
 
         if (error) {
-          setMessage(error.message);
+          setMessage("注册失败：" + error.message);
           return;
         }
 
+        console.log("signup success", data);
         setMessage("注册成功，请去邮箱查收验证邮件");
       }
     } catch (err) {
-      setMessage("操作失败，请稍后再试");
-      console.error(err);
+      console.error("auth error", err);
+      setMessage("操作失败，请打开浏览器控制台查看报错");
     } finally {
       setLoading(false);
     }
@@ -77,7 +85,7 @@ export default function LoginPage() {
             type="button"
             onClick={() => {
               setIsLogin(true);
-              setMessage("");
+              setMessage("已切换到登录模式");
             }}
             className={`flex-1 py-2 transition ${
               isLogin ? "bg-blue-500/80 text-white" : "text-blue-200/70"
@@ -90,7 +98,7 @@ export default function LoginPage() {
             type="button"
             onClick={() => {
               setIsLogin(false);
-              setMessage("");
+              setMessage("已切换到注册模式");
             }}
             className={`flex-1 py-2 transition ${
               !isLogin ? "bg-blue-500/80 text-white" : "text-blue-200/70"
