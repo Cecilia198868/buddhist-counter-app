@@ -1,8 +1,8 @@
-import "./globals.css";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "念佛计数正式版",
-  description: "Next.js + Supabase + Vercel 正式网站版",
+export const metadata: Metadata = {
+  title: "念佛计数",
+  description: "离线版念佛计数器",
 };
 
 export default function RootLayout({
@@ -12,7 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body style={{ margin: 0, fontFamily: "Arial, sans-serif" }}>
+        {children}
+      </body>
     </html>
   );
 }
