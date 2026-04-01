@@ -59,9 +59,9 @@ export default function LoginPage() {
         console.log("signup success", data);
         setMessage("注册成功，请去邮箱查收验证邮件");
       }
-    } catch (err) {
-      console.error("auth error", err);
-      setMessage("操作失败，请打开浏览器控制台查看报错");
+    }  catch (err: any) {
+  console.error("auth error", err);
+  setMessage("操作失败：" + (err?.message || JSON.stringify(err)));
     } finally {
       setLoading(false);
     }
